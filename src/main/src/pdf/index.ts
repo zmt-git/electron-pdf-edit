@@ -17,13 +17,13 @@ export async function pdfToImg (options = defaultOptions) {
       fs.mkdirSync(path.join(__dirname, dir.pending))
     }
 
-    await poppler.pdfToCairo(config.pdfFilePath, path.join(__dirname, 'dir.pending), options)
+    await poppler.pdfToCairo(config.pdfFilePath, path.join(__dirname, dir.pending), options)
   } catch (e) {
     console.error(e)
   }
 }
 
-export function imgToPDF (cb) {
+export function imgToPDF (cb: () => {}) {
   const doc = new PDFDocument({ size: 'A4'})
 
   doc.pipe(fs.createWriteStream(`${config.outputFilePath}/${config.outputFilename}`))

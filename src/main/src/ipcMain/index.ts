@@ -15,7 +15,7 @@ export const dir = {
 }
 
 export default function initIpcMain (win: BrowserWindow) {
-  ipcMain.on('dialog',  (event, type = null, options = { properties: ['openDirectory'] }) => {
+  ipcMain.on('dialog',  (event: Electron.IpcMainEvent, type: string, options = { properties: ['openDirectory'] }) => {
     const result = dialog.showOpenDialogSync(options)
     event.reply('dialog', type, result)
   })

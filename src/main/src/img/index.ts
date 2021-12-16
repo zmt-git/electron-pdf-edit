@@ -1,6 +1,7 @@
 import path from 'path'
 import gm from 'gm'
 import { dir } from '../ipcMain'
+import fs from 'fs-extra'
 const imageMagick = gm.subClass({ imageMagick: true })
 
 const defaultOptions = {
@@ -9,7 +10,7 @@ const defaultOptions = {
   y: 1670
 }
 
-function imgAddText (imgName, options = defaultOptions) {
+function imgAddText (imgName: string, text: string, options = defaultOptions) {
   return new Promise((resolve, reject) => {
     const inputPath = path.join(__dirname, `${dir.pending}/${imgName}`)
 
@@ -24,9 +25,9 @@ function imgAddText (imgName, options = defaultOptions) {
       .font(fontPath)
       .fontSize(24)
       .drawText(options.x, options.y, text)
-      .write(outputPath, function (err) {
+      .write(outputPath, function (err: Error | null) {
         if (err) { return reject(err) }
-        return resolve()
+        return resolve(true)
       });
   })
 }

@@ -90,7 +90,6 @@
 </template>
 
 <style scoped>
-  @import "./assets/iconfont.css";
   .app{
     width: 100%;
     height: 100%;
@@ -172,6 +171,7 @@
 </style>
 
 <style>
+  @import "./assets/iconfont.css";
   html,body,#app{
     width: 100%;
     height: 100%;

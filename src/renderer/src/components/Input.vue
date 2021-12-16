@@ -25,6 +25,10 @@ const style = computed(() => {
   return s
 })
 
+  const showClose = computed(() => {
+    return !!props.modelValue
+  })
+
 const onClick = (e: MouseEvent) => {
   emit('click', e, props)
 }
@@ -62,7 +66,7 @@ const onClear = (e: MouseEvent) => {
       @input="onInput"
       @click.self="onClick"
     />
-    <span class="iconfont icon-close" @click.self="onClear"></span>
+    <span :class="showClose ? null : 'hidden'" class="iconfont icon-close close" @click.self="onClear"></span>
   </label>
 </template>
 
@@ -95,19 +99,23 @@ const onClear = (e: MouseEvent) => {
     padding: 5px;
     transition: all .3s;
     font-size: 14px;
-    color: #595959;
+    color: #000;
     font-weight: 600;
   }
   input:focus{
     border-bottom-color: #f5222d;
     color: #595959;
   }
-  .icon-close{
+  .close{
     position: relative;
     left: -22px;
     padding: 5px;
     cursor: pointer;
     z-index: 20;
     font-size: 12px;
+    transition: all .3s;
+  }
+  .hidden{
+    opacity: 0;
   }
 </style>

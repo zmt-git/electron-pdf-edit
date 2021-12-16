@@ -6,8 +6,8 @@
   <teleport to="body">
     <div class="loading">
 <!--      <svg class="iconfont icon icon-loading"></svg>-->
-      <svg class="icon" aria-hidden="true">
-        <use xlink:href="#icon-loading"></use>
+      <svg class="icon rotating" aria-hidden="true">
+        <use xlink:href="#icon-huaduo-copy"></use>
       </svg>
       <span class="tit"><slot></slot></span>
     </div>
@@ -32,10 +32,9 @@
     color: white;
   }
   .icon{
-    width: 26px;
-    height: 26px;
+    width: 45px;
+    height: 45px;
     font-size: 26px;
-    animation: rotate 1s linear infinite;
   }
   .tit{
     margin-top: 20px;

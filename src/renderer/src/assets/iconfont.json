@@ -6,6 +6,13 @@
   "description": "",
   "glyphs": [
     {
+      "icon_id": "26544069",
+      "name": "花朵",
+      "font_class": "huaduo-copy",
+      "unicode": "e892",
+      "unicode_decimal": 59538
+    },
+    {
       "icon_id": "3858853",
       "name": "花朵",
       "font_class": "huaduo",

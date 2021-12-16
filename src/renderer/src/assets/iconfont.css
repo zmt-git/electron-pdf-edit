@@ -1,8 +1,8 @@
 @font-face {
   font-family: "iconfont"; /* Project id 3000598 */
-  src: url('iconfont.woff2?t=1639641632369') format('woff2'),
-       url('iconfont.woff?t=1639641632369') format('woff'),
-       url('iconfont.ttf?t=1639641632369') format('truetype');
+  src: url('iconfont.woff2?t=1639644661940') format('woff2'),
+       url('iconfont.woff?t=1639644661940') format('woff'),
+       url('iconfont.ttf?t=1639644661940') format('truetype');
 }
 
 .iconfont {
@@ -11,6 +11,10 @@
   font-style: normal;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-huaduo-copy:before {
+  content: "\e892";
 }
 
 .icon-huaduo:before {

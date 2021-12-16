@@ -68,15 +68,12 @@
     <p-loading v-if="loading">加载中...</p-loading>
     <header class="header">
       <div class="header-item">
-        <svg class="icon-logo" aria-hidden="true">
+        <svg class="icon-logo" :class="loading ? 'rotating' : null" aria-hidden="true">
           <use xlink:href="#icon-huaduo"></use>
         </svg>
-<!--        <span class="iconfont icon-2" title="PDF指定位置添加文字"></span>-->
       </div>
       <div class="header-item">
        <span class="iconfont icon icon-minimize" title="最小化" @click="onClickHeader('minimize')"></span>
-       <!--      <span class="iconfont icon icon-maximize" title="最大化"></span>-->
-       <!--      <span class="iconfont icon icon-reduction" title="还原"></span>-->
        <span class="iconfont icon icon-close" title="关闭" @click="onClickHeader('close')"></span>
       </div>
     </header>
@@ -113,8 +110,6 @@
     align-items: center;
     -webkit-app-region: drag;
     background-color: #cf1322;
-    /*background-image: linear-gradient(to top, #ff0844 0%, #ffb199 100%);*/
-    /*background-image: linear-gradient(to right, #1890ff 0%, #4689f1 100%);*/
   }
   .header-item{
     height: 100%;
@@ -125,11 +120,10 @@
     height: 28px;
     width: 28px;
     margin-left: 5px;
-    animation: rotate 2s linear infinite;
     -webkit-app-region: no-drag;
   }
   .icon-logo:hover{
-    animation: none;
+    animation: rotate 1.5s linear infinite;
   }
   .icon-2{
     margin-left: 10px;
@@ -189,6 +183,9 @@
   #app {
     width: 100%;
     height: 100%;
+  }
+  .rotating {
+    animation: rotate 2s linear infinite;
   }
   @keyframes rotate {
     to {

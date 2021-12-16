@@ -8,8 +8,8 @@
     txtFilePath: '',
     outputFilePath: '',
     outputFilename: '',
-    x: '0',
-    y: '0'
+    x: '20',
+    y: '1670'
   })
 
   onMounted(() => {

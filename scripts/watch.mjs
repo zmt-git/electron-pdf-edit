@@ -4,11 +4,13 @@ import { readFileSync } from 'fs'
 import { join } from 'path'
 import electron from 'electron'
 import { spawn } from 'child_process'
-import { createServer, build as viteBuild } from 'vite'
+import pkg from 'vite';
+const { createServer, build: viteBuild } = pkg;
+
 import chalk from 'chalk'
 
 const TAG = chalk.bgGreen(' dev.mjs ')
-const pkg = JSON.parse(readFileSync(join(process.cwd(), 'package.json'), 'utf8'))
+const pkg2 = JSON.parse(readFileSync(join(process.cwd(), 'package.json'), 'utf8'))
 
 /**
  * @param {{ name: string; configFile: string; writeBundle: import('rollup').OutputPlugin['writeBundle'] }} param0
@@ -48,7 +50,7 @@ async function watchMain() {
       electronProcess && electronProcess.kill()
       electronProcess = spawn(electron, ['.'], {
         stdio: 'inherit',
-        env: Object.assign(process.env, pkg.env),
+        env: Object.assign(process.env, pkg2.env),
       })
     },
   })
@@ -73,8 +75,11 @@ async function watchPreload(viteDevServer) {
 }
 
 // bootstrap
-const viteDevServer = await createServer({ configFile: 'configs/vite-renderer.config.ts' })
+(async () => {
+  const viteDevServer = await createServer({ configFile: 'configs/vite-renderer.config.ts' })
 
-await viteDevServer.listen()
-await watchPreload(viteDevServer)
-await watchMain()
+  await viteDevServer.listen()
+  await watchPreload(viteDevServer)
+  await watchMain()
+})()
+

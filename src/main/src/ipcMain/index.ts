@@ -1,6 +1,13 @@
-import path from 'path'
-import fs from 'fs'
 import { ipcMain, dialog, BrowserWindow } from 'electron'
+
+export let config = {
+  pdfFilePath: '',
+  txtFilePath: '',
+  outputFilePath: '',
+  outputFilename: '',
+  x: '',
+  y: ''
+}
 
 export default function initIpcMain (win: BrowserWindow) {
   ipcMain.on('dialog',  (event, type = null, options = { properties: ['openDirectory'] }) => {
@@ -19,9 +26,7 @@ export default function initIpcMain (win: BrowserWindow) {
     }
   })
 
-  ipcMain.on('config',  (event, config) => {
-    const p = path.join(__dirname, '/config.js')
-
-    fs.writeFileSync(p, JSON.stringify(config))
+  ipcMain.on('config',  (event, c: typeof config) => {
+    config = c
   })
 }

@@ -81,10 +81,10 @@
       </div>
     </header>
     <div class="form">
-      <p-input name="outputFilename" label="文件名"  placeholder="请输入导出文件名" v-model="formState.outputFilename" />
-      <p-input :disabled="isDialog" name="pdfFilePath" label="PDF文件" placeholder="请选择PDF文件" v-model="formState.pdfFilePath" @click="onClick"/>
-      <p-input :disabled="isDialog" name="txtFilePath" label="TXT文件" placeholder="请选择TXT文件" v-model="formState.txtFilePath" @click="onClick"/>
-      <p-input :disabled="isDialog" name="outputFilePath" label="导出位置" placeholder="请选择导出位置" v-model="formState.outputFilePath" @click="onClick"/>
+      <p-input name="outputFilename" label="文件名"  placeholder="请输入【导出PDF文件名】" v-model="formState.outputFilename" />
+      <p-input :disabled="isDialog" name="pdfFilePath" label="PDF文件" placeholder="请选择【待修改PDF文件】" v-model="formState.pdfFilePath" @click="onClick"/>
+      <p-input :disabled="isDialog" name="txtFilePath" label="TXT文件" placeholder="请选择【导入文字TXT文件】" v-model="formState.txtFilePath" @click="onClick"/>
+      <p-input :disabled="isDialog" name="outputFilePath" label="导出位置" placeholder="请选择【导出PDF文件位置】" v-model="formState.outputFilePath" @click="onClick"/>
       <p-input name="x" label="文字位置x"  placeholder="请输入文字x坐标位置(坐标原点为左上角)" v-model="formState.x"/>
       <p-input name="y" label="文字位置y"  placeholder="请输入文字y坐标位置(坐标原点为左上角)" v-model="formState.y"/>
       <button id="button" :disabled="disabled" @click="onSubmit">开始导出</button>

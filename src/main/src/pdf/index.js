@@ -1,15 +1,16 @@
-const path = require('path')
-const fs = require('fs-extra')
-const { Poppler } = require("node-poppler")
-const poppler = new Poppler()
-const PDFDocument = require('pdfkit')
+import { Poppler } from "node-poppler"
+import PDFDocument from 'pdfkit'
 import { config } from "../ipcMain";
+import path from 'path'
+import fs from 'fs-extra'
+
+const poppler = new Poppler()
 
 const defaultOptions = {
   pngFile: true
 }
 
-async function pdfToImg (filename, output, options = defaultOptions) {
+export async function pdfToImg (filename, output, options = defaultOptions) {
   try {
 
     if (!fs.existsSync(path.join(__dirname, '../assets/outputImg'))) {
@@ -22,7 +23,7 @@ async function pdfToImg (filename, output, options = defaultOptions) {
   }
 }
 
-function imgToPDF (cb) {
+export function imgToPDF (cb) {
   const doc = new PDFDocument({ size: 'A4'})
 
   doc.pipe(fs.createWriteStream(`${config.outputFilePath}/${config.outputFilename}`))
@@ -39,12 +40,7 @@ function imgToPDF (cb) {
   doc.end()
 
   doc.on('finish', () => {
-    fs.
+    fs.remove(imgDir)
     cb()
   })
-}
-
-module.exports = {
-  pdfToImg,
-  imgToPDF
 }

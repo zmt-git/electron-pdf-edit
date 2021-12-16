@@ -1,3 +1,5 @@
+import path from 'path'
+import fs from 'fs'
 import { ipcMain, dialog, BrowserWindow } from 'electron'
 
 export default function initIpcMain (win: BrowserWindow) {
@@ -15,5 +17,11 @@ export default function initIpcMain (win: BrowserWindow) {
         break
       default: console.log(methodName)
     }
+  })
+
+  ipcMain.on('config',  (event, config) => {
+    const p = path.join(__dirname, '/config.js')
+
+    fs.writeFileSync(p, JSON.stringify(config))
   })
 }

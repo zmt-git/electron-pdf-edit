@@ -1,6 +1,8 @@
 <script setup lang="ts">
   import pInput from './components/Input.vue'
-  import { reactive, toRaw, onMounted, computed } from 'vue'
+  import pLoading from './components/Loading.vue'
+  import { ref, reactive, toRaw, onMounted, computed } from 'vue'
+
   const formState = reactive({
     pdfFilePath: '',
     txtFilePath: '',
@@ -9,14 +11,17 @@
     x: '0',
     y: '0'
   })
+
   onMounted(() => {
     window.ipcRenderer.on('dialog', (event, type: keyof typeof formState, result: string[] | undefined) => {
+      isDialog.value = false
       if (result) {
         const val = result.shift()
         formState[type] = val ? val : ''
       }
     })
   })
+
   const disabled = computed(() => {
     return !formState.outputFilename ||
       !formState.outputFilePath ||
@@ -26,7 +31,12 @@
       !formState.y
   })
 
+  const isDialog = ref(false)
+
+  const loading = ref(false)
+
   const onClick = (e: MouseEvent, props: any) => {
+    if (isDialog.value) return
     let options: any
     switch (props.name) {
       case 'pdfFilePath' : options = { properties: ['openFile'], filters: [{ name:'excel', extensions: ['pdf']}] }
@@ -37,6 +47,9 @@
         break
       default : options = { properties: ['openDirectory'] }
     }
+
+    isDialog.value = true
+
     window.ipcRenderer.send('dialog', props.name, options)
   }
 
@@ -48,41 +61,49 @@
     if (disabled.value) return
     window.ipcRenderer.send('config', toRaw(formState))
   }
-
 </script>
 
 <template>
   <div class="app">
+    <p-loading v-if="loading">加载中...</p-loading>
     <header class="header">
-      <div>
-        <span class="iconfont icon-2" title="PDF指定位置添加文字"></span>
+      <div class="header-item">
+        <svg class="icon-logo" aria-hidden="true">
+          <use xlink:href="#icon-huaduo"></use>
+        </svg>
+<!--        <span class="iconfont icon-2" title="PDF指定位置添加文字"></span>-->
       </div>
-     <div>
+      <div class="header-item">
        <span class="iconfont icon icon-minimize" title="最小化" @click="onClickHeader('minimize')"></span>
        <!--      <span class="iconfont icon icon-maximize" title="最大化"></span>-->
        <!--      <span class="iconfont icon icon-reduction" title="还原"></span>-->
        <span class="iconfont icon icon-close" title="关闭" @click="onClickHeader('close')"></span>
-     </div>
+      </div>
     </header>
     <div class="form">
-      <p-input name="pdfFilePath" label="PDF文件" placeholder="请选择PDF文件" v-model="formState.pdfFilePath" @click="onClick"/>
-      <p-input name="txtFilePath" label="TXT文件" placeholder="请选择TXT文件" v-model="formState.txtFilePath" @click="onClick"/>
-      <p-input name="outputFilePath" label="导出位置" placeholder="请选择导出位置" v-model="formState.outputFilePath" @click="onClick"/>
-      <p-input name="outputFilename" label="导出文件名"  placeholder="请输入导出文件名" v-model="formState.outputFilename" />
-      <p-input name="x" label="文字位置x"  placeholder="请输入文字位置" v-model="formState.x"/>
-      <p-input name="y" label="文字位置y"  placeholder="请输入文字位置" v-model="formState.y"/>
+      <p-input name="outputFilename" label="文件名"  placeholder="请输入导出文件名" v-model="formState.outputFilename" />
+      <p-input :disabled="isDialog" name="pdfFilePath" label="PDF文件" placeholder="请选择PDF文件" v-model="formState.pdfFilePath" @click="onClick"/>
+      <p-input :disabled="isDialog" name="txtFilePath" label="TXT文件" placeholder="请选择TXT文件" v-model="formState.txtFilePath" @click="onClick"/>
+      <p-input :disabled="isDialog" name="outputFilePath" label="导出位置" placeholder="请选择导出位置" v-model="formState.outputFilePath" @click="onClick"/>
+      <p-input name="x" label="文字位置x"  placeholder="请输入文字x坐标位置(坐标原点为左上角)" v-model="formState.x"/>
+      <p-input name="y" label="文字位置y"  placeholder="请输入文字y坐标位置(坐标原点为左上角)" v-model="formState.y"/>
       <button id="button" :disabled="disabled" @click="onSubmit">开始导出</button>
     </div>
   </div>
 </template>
 
 <style scoped>
-  @import "//at.alicdn.com/t/font_3000598_z2hct4xi3ml.css";
+  @import "./assets/iconfont.css";
   .app{
     width: 100%;
     height: 100%;
     display: flex;
     flex-direction: column;
+    border-radius: 5px;
+    overflow: hidden;
+    box-sizing: border-box;
+    border: 1px solid #cf1322;
+    border-top: 0;
   }
   .header{
     height: 40px;
@@ -91,7 +112,24 @@
     justify-content: space-between;
     align-items: center;
     -webkit-app-region: drag;
-    background-image: linear-gradient(to right, #1890ff 0%, #4689f1 100%);
+    background-color: #cf1322;
+    /*background-image: linear-gradient(to top, #ff0844 0%, #ffb199 100%);*/
+    /*background-image: linear-gradient(to right, #1890ff 0%, #4689f1 100%);*/
+  }
+  .header-item{
+    height: 100%;
+    display: flex;
+    align-items: center;
+  }
+  .icon-logo{
+    height: 28px;
+    width: 28px;
+    margin-left: 5px;
+    animation: rotate 2s linear infinite;
+    -webkit-app-region: no-drag;
+  }
+  .icon-logo:hover{
+    animation: none;
   }
   .icon-2{
     margin-left: 10px;
@@ -115,25 +153,26 @@
     padding: 15px;
     padding-right: 25px;
     overflow: auto;
+    background: rgba(255,255,255,.95);
   }
   #button{
-    height: 30px;
+    height: 35px;
     line-height: 30px;
     text-align: center;
-    border: 1px solid #096dd9;
+    border: 1px solid #cf1322;
     outline: 0;
     color: #ffffff;
-    background: #1890ff;
+    background: #f5222d;
     cursor: pointer;
     transition: all .3s;
     padding: 0 20px;
   }
   #button:hover{
-    background: #096dd9;
+    background: #cf1322;
   }
   #button:disabled{
-    border: 1px solid #40a9ff;
-    background: #69c0ff;
+    border: 1px solid #ff4d4f;
+    background: #ff7875;
     cursor: no-drop;
   }
 </style>
@@ -150,6 +189,14 @@
   #app {
     width: 100%;
     height: 100%;
+  }
+  @keyframes rotate {
+    to {
+      transform: rotateZ(360deg);
+    }
+    from {
+      transform: rotateZ(0deg);
+    }
   }
   /* 设置滚动条样式 (不支持火狐)*/
   ::-webkit-scrollbar {

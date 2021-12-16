@@ -1,0 +1,72 @@
+{
+  "id": "3000598",
+  "name": "test",
+  "font_family": "iconfont",
+  "css_prefix_text": "icon-",
+  "description": "",
+  "glyphs": [
+    {
+      "icon_id": "3858853",
+      "name": "花朵",
+      "font_class": "huaduo",
+      "unicode": "e60d",
+      "unicode_decimal": 58893
+    },
+    {
+      "icon_id": "6230070",
+      "name": "02pdf",
+      "font_class": "pdf",
+      "unicode": "e615",
+      "unicode_decimal": 58901
+    },
+    {
+      "icon_id": "7197321",
+      "name": "icn_loading",
+      "font_class": "loading",
+      "unicode": "e64a",
+      "unicode_decimal": 58954
+    },
+    {
+      "icon_id": "10273624",
+      "name": "loading",
+      "font_class": "loading1",
+      "unicode": "e891",
+      "unicode_decimal": 59537
+    },
+    {
+      "icon_id": "357751",
+      "name": "猫，狗，猫狗，心形",
+      "font_class": "2",
+      "unicode": "e62c",
+      "unicode_decimal": 58924
+    },
+    {
+      "icon_id": "7461684",
+      "name": "关闭",
+      "font_class": "close",
+      "unicode": "e639",
+      "unicode_decimal": 58937
+    },
+    {
+      "icon_id": "1299763",
+      "name": "Minimize-2",
+      "font_class": "minimize",
+      "unicode": "e65a",
+      "unicode_decimal": 58970
+    },
+    {
+      "icon_id": "4485682",
+      "name": "最大化",
+      "font_class": "maximize",
+      "unicode": "e601",
+      "unicode_decimal": 58881
+    },
+    {
+      "icon_id": "7538862",
+      "name": "窗口-最大化_line",
+      "font_class": "reduction",
+      "unicode": "e695",
+      "unicode_decimal": 59029
+    }
+  ]
+}

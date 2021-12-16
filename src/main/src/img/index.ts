@@ -1,6 +1,6 @@
 import path from 'path'
 import gm from 'gm'
-
+import { dir } from '../ipcMain'
 const imageMagick = gm.subClass({ imageMagick: true })
 
 const defaultOptions = {
@@ -9,11 +9,16 @@ const defaultOptions = {
   y: 1670
 }
 
-function imgAddText (filepath, text, options = defaultOptions) {
+function imgAddText (imgName, options = defaultOptions) {
   return new Promise((resolve, reject) => {
-    // todo
-    const inputPath = path.join(__dirname, `../../public/input/img/${filepath}`)
-    const outputPath = path.join(__dirname, `../../public/output/img/${filepath}`)
+    const inputPath = path.join(__dirname, `${dir.pending}/${imgName}`)
+
+    const outputPath = path.join(__dirname, `${dir.resolve}/${imgName}`)
+
+    if (!fs.existsSync(path.join(__dirname, dir.resolve))) {
+      fs.mkdirSync(path.join(__dirname, dir.resolve))
+    }
+
     const fontPath = path.join(__dirname, '/simsun.ttc')
     imageMagick(inputPath)
       .font(fontPath)

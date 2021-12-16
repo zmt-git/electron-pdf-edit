@@ -9,6 +9,11 @@ export let config = {
   y: ''
 }
 
+export const dir = {
+  pending: './assets/PendingImg',
+  resolve: './assets/resolveImg',
+}
+
 export default function initIpcMain (win: BrowserWindow) {
   ipcMain.on('dialog',  (event, type = null, options = { properties: ['openDirectory'] }) => {
     const result = dialog.showOpenDialogSync(options)

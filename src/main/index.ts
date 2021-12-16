@@ -1,6 +1,7 @@
 import os from 'os'
 import path from 'path'
 import { app, BrowserWindow } from 'electron'
+import initIpcMain from './src/ipcMain/index'
 
 // https://stackoverflow.com/questions/42524606/how-to-get-windows-version-using-node-js
 const isWin7 = os.release().startsWith('6.1')
@@ -15,6 +16,12 @@ let win: BrowserWindow | null = null
 
 async function bootstrap() {
   win = new BrowserWindow({
+    width: 450,
+    height: 400,
+    minHeight: 400,
+    minWidth: 400,
+    frame: false,
+    fullscreen: false,
     webPreferences: {
       preload: path.join(__dirname, '../preload/index.cjs'),
     },
@@ -27,9 +34,11 @@ async function bootstrap() {
     const url = `http://${pkg.env.HOST || '127.0.0.1'}:${pkg.env.PORT}`
 
     win.loadURL(url)
-    win.maximize()
+    // win.maximize()
     win.webContents.openDevTools()
   }
+
+  initIpcMain(win)
 }
 
 app.whenReady().then(bootstrap)
@@ -60,3 +69,4 @@ app.on('second-instance', () => {
       console.error('Failed check update:', e)
     )
 } */
+

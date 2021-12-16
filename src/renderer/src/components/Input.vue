@@ -1,60 +1,61 @@
 <script setup lang="ts">
   import { computed } from 'vue'
-const props = defineProps({
-  label: { type: String, default: 'label' },
-  placeholder: { type: String, default: '' },
-  modelValue: { default: '' },
-  name: { type: String, default: 'name' },
-  clearable: { type: Boolean, default: false },
-  disabled: { type: Boolean, default: false }
-})
-
-const emit = defineEmits(['focus', 'input', 'blur', 'change', 'update:modelValue', 'click'])
-
-const style = computed(() => {
-  let s = { borderBottomColor: '#d9d9d9' }
-  switch (props.modelValue) {
-    case null : s = { borderBottomColor: '#d9d9d9' }
-      break
-    case undefined :
-    case "" : s = { borderBottomColor: '#f5222d' }
-      break
-    default : s = { borderBottomColor: '#7cb305' }
-  }
-
-  return s
-})
-
-  const showClose = computed(() => {
-    return !!props.modelValue
+  const props = defineProps({
+    label: { type: String, default: 'label' },
+    placeholder: { type: String, default: '' },
+    modelValue: { default: '' },
+    name: { type: String, default: 'name' },
+    clearable: { type: Boolean, default: false },
+    disabled: { type: Boolean, default: false },
+    type: { type: String, default: 'text' }
   })
 
-const onClick = (e: MouseEvent) => {
-  emit('click', e, props)
-}
-const onFocus = (e: MouseEvent) => {
-  emit('focus', (e.target as HTMLInputElement).value, e, props)
-}
-const onChange = (e: MouseEvent) => {
-  emit('change', (e.target as HTMLInputElement).value)
-}
-const onBlur = (e: MouseEvent) => {
-  emit('blur', (e.target as HTMLInputElement).value)
-}
-const onInput = (e: MouseEvent) => {
-  emit('update:modelValue', (e.target as HTMLInputElement).value)
-  emit('input', props)
-}
-const onClear = (e: MouseEvent) => {
-  emit('update:modelValue', '')
-}
+  const emit = defineEmits(['focus', 'input', 'blur', 'change', 'update:modelValue', 'click'])
 
+  const style = computed(() => {
+    let s = { borderBottomColor: '#d9d9d9' }
+    switch (props.modelValue) {
+      case null : s = { borderBottomColor: '#d9d9d9' }
+        break
+      case undefined :
+      case "" : s = { borderBottomColor: '#f5222d' }
+        break
+      default : s = { borderBottomColor: '#7cb305' }
+    }
+
+    return s
+  })
+
+    const showClose = computed(() => {
+      return !!props.modelValue
+    })
+
+  const onClick = (e: MouseEvent) => {
+    emit('click', e, props)
+  }
+  const onFocus = (e: MouseEvent) => {
+    emit('focus', (e.target as HTMLInputElement).value, e, props)
+  }
+  const onChange = (e: MouseEvent) => {
+    emit('change', (e.target as HTMLInputElement).value)
+  }
+  const onBlur = (e: MouseEvent) => {
+    emit('blur', (e.target as HTMLInputElement).value)
+  }
+  const onInput = (e: MouseEvent) => {
+    emit('update:modelValue', (e.target as HTMLInputElement).value)
+    emit('input', props)
+  }
+  const onClear = (e: MouseEvent) => {
+    emit('update:modelValue', '')
+  }
 </script>
 
 <template>
   <label :for="name">
     <span class="label-txt">{{label}}</span>
     <input
+      :type="type"
       :disabled='disabled'
       :id="name"
       :style="style"
@@ -117,5 +118,9 @@ const onClear = (e: MouseEvent) => {
   }
   .hidden{
     opacity: 0;
+  }
+  input::-webkit-outer-spin-button,
+  input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
   }
 </style>

@@ -5,6 +5,10 @@ import path from 'path'
 import fs from 'fs-extra'
 import { dir } from '../ipcMain'
 
+interface Callback {
+  (args?: string): void
+}
+
 const poppler = new Poppler()
 
 const defaultOptions = {
@@ -23,12 +27,12 @@ export async function pdfToImg (options = defaultOptions) {
   }
 }
 
-export function imgToPDF (cb: () => {}) {
+export function imgToPDF (cb: Callback) {
   const doc = new PDFDocument({ size: 'A4'})
 
   doc.pipe(fs.createWriteStream(`${config.outputFilePath}/${config.outputFilename}`))
 
-  const imgDir = path.join(__dirname, './assets/inputImg')
+  const imgDir = path.join(__dirname, dir.resolve)
 
   const files = fs.readdirSync(imgDir)
 
@@ -39,7 +43,6 @@ export function imgToPDF (cb: () => {}) {
   doc.end()
 
   doc.on('finish', () => {
-    fs.remove(imgDir)
     cb()
   })
 }

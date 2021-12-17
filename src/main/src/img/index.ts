@@ -10,7 +10,7 @@ const defaultOptions = {
   y: 1670
 }
 
-function imgAddText (imgName: string, text: string, options = defaultOptions) {
+export function imgAddText (imgName: string, text: string, options = defaultOptions) {
   return new Promise((resolve, reject) => {
     const inputPath = path.join(__dirname, `${dir.pending}/${imgName}`)
 
@@ -30,8 +30,4 @@ function imgAddText (imgName: string, text: string, options = defaultOptions) {
         return resolve(true)
       });
   })
-}
-
-module.exports = {
-  imgAddText
 }

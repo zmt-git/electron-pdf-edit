@@ -12,6 +12,12 @@
     y: '1670'
   })
 
+  const isDialog = ref(false)
+
+  const loading = ref(false)
+
+  const msg = ref('')
+
   onMounted(() => {
     window.ipcRenderer.on('dialog', (event, type: keyof typeof formState, result: string[] | undefined) => {
       isDialog.value = false
@@ -19,6 +25,18 @@
         const val = result.shift()
         formState[type] = val ? val : ''
       }
+    })
+    window.ipcRenderer.on('pending', (event) => {
+      loading.value = true
+    })
+    window.ipcRenderer.on('success', (event) => {
+      loading.value = false
+    })
+    window.ipcRenderer.on('error', (event) => {
+      loading.value = false
+    })
+    window.ipcRenderer.on('msg', (event, message: string) => {
+      msg.value = message
     })
   })
 
@@ -30,10 +48,6 @@
       !formState.x ||
       !formState.y
   })
-
-  const isDialog = ref(false)
-
-  const loading = ref(false)
 
   const onClick = (e: MouseEvent, props: any) => {
     if (isDialog.value) return
@@ -65,7 +79,7 @@
 
 <template>
   <div class="app">
-    <p-loading v-if="loading">加载中...</p-loading>
+    <p-loading v-if="loading">{{msg}}</p-loading>
     <header class="header">
       <div class="header-item">
         <svg class="icon-logo" :class="loading ? 'rotating' : null" aria-hidden="true">

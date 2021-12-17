@@ -32,10 +32,12 @@
     window.ipcRenderer.on('success', (event) => {
       loading.value = false
     })
-    window.ipcRenderer.on('error', (event) => {
+    window.ipcRenderer.on('error', (event, e: any) => {
       loading.value = false
+      console.error(e)
     })
     window.ipcRenderer.on('msg', (event, message: string) => {
+      
       msg.value = message
     })
   })
@@ -74,6 +76,7 @@
   const onSubmit = () => {
     if (disabled.value) return
     window.ipcRenderer.send('config', toRaw(formState))
+    loading.value = true
   }
 </script>
 
